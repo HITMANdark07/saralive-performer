@@ -20,6 +20,8 @@ target 'performer' do
 
   pod 'react-native-agora', :path => '../node_modules/react-native-agora'
 
+  pod 'RNSound', :path => '../node_modules/react-native-sound'
+
   target 'performerTests' do
     inherit! :complete
     # Pods for testing
