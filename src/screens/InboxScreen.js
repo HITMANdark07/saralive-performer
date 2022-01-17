@@ -8,10 +8,11 @@ import Footer from '../components/Footer';
 
 const dark= '#10152F';
 const InboxScreen = ({navigation, currentUser}) => {
+    console.log(currentUser)
     return (
         <View style={{flex:1, backgroundColor:dark}}>
             <View style={{backgroundColor:'#1A224B', borderBottomLeftRadius:50, borderBottomRightRadius:50, marginBottom:20}}>
-            <Text style={{color:'#fff', fontWeight:'700', alignSelf:'center', fontSize:20,margin:20}}>MESSAGES</Text>
+            <Text style={{color:'#fff', fontWeight:'300', alignSelf:'center', fontSize:20,margin:20}}>CHATS</Text>
             </View>
             <ScrollView >
                 <View style={{marginBottom:100}}>

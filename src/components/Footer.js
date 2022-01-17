@@ -7,19 +7,19 @@ const Footer = ({navigation,name }) => {
         <View style={styles.footmain}>
             <View style={styles.footer}>
 
-                <TouchableOpacity style={styles.tab} onPress={() => {
+                {/* <TouchableOpacity style={styles.tab} onPress={() => {
                     navigation.navigate('Home');
                 }}>
                 <Icon name="video-camera" size={25} color={name==='discover' ? "#4BD5CF":'#ddd'}/>
                 <Text style={{color:name==='discover' ? "#4BD5CF":'#fff', fontSize:12}}>Discover</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                <TouchableOpacity style={styles.tab} onPress={() => {
+                {/* <TouchableOpacity style={styles.tab} onPress={() => {
                     navigation.navigate('OnCam');
                 }}>
                 <Icon name="picasa" size={25} color={name==='oncam' ? "#4BD5CF":'#ddd'}/>
                 <Text style={{color:name==='oncam' ? "#4BD5CF":'#fff', fontSize:12}}>Cams</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity style={styles.tab} onPress={() => {
                     navigation.navigate('Messages');
@@ -42,7 +42,7 @@ const Footer = ({navigation,name }) => {
 const styles = StyleSheet.create({
     footer:{
         flexDirection:'row',
-        justifyContent:'space-between',
+        justifyContent:'space-evenly',
         padding:10,
         paddingTop:10,
         paddingLeft:30,

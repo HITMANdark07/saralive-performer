@@ -26,6 +26,11 @@ function HigherComp({currentUser}) {
     const [joinSucceed, setJoinSucceed] = React.useState(false);
     const [show, setShow] = React.useState(true);
     const [inCall , setInCall] =React.useState("pending");
+    const [callingPerson, setCallingPerson] = React.useState({
+        name:"New User",
+        image:'https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png',
+        person2:'0',
+    })
 
     const createChannel = () => {
         const db = getDatabase();
@@ -34,6 +39,8 @@ function HigherComp({currentUser}) {
         set(paidRef,{
             channelId:currentUser.id,
             person1:currentUser.id,
+            name:'',
+            image:'',
             status:'pending',//pending, waiting, joined
             person2:"",
         }).then((res) => {
@@ -64,10 +71,16 @@ function HigherComp({currentUser}) {
         const db = getDatabase();
         const rRef = ref(db, 'paidcam/'+currentUser.id);
         onValue(rRef,(snapshot) => {
-            let obj = { status :"pending"};
+            let obj = { status :"pending", person2:"", image:'',name:''};
             obj = snapshot.toJSON();
             if(obj){
                 setInCall(obj.status);
+                setCallingPerson((prevState) => ({
+                    image:obj.image ? obj.image : prevState.image,
+                    name: obj.name ? obj.name : prevState.name,
+                    person2: obj.person2 ? obj.person2 : prevState.person2
+                }));
+                console.log("image", obj.person2);
             }
         })
         return () => {
@@ -91,7 +104,7 @@ function HigherComp({currentUser}) {
                 console.log("inside try");
                 const rtcEngine = await RtcEngine.create(appId);
                 await rtcEngine.enableVideo();
-                
+            
 
                 // need to prevent calls to setEngine after the component has unmounted
                 if (isSubscribed) {
@@ -170,8 +183,8 @@ function HigherComp({currentUser}) {
                 inCall==="pending" && 
                 (
                 <>
-                <Drawer.Screen name="Home" component={Home} options={{headerShown:false, unmountOnBlur:true}} />
-                <Drawer.Screen name="OnCam" component={Cam} options={{headerShown:false, unmountOnBlur:true}} />
+                {/* <Drawer.Screen name="Home" component={Home} options={{headerShown:false, unmountOnBlur:true}} /> 
+                    <Drawer.Screen name="OnCam" component={Cam} options={{headerShown:false, unmountOnBlur:true}} /> */}
                 <Drawer.Screen name="Messages" component={InboxScreen} options={{headerShown:false, unmountOnBlur:true}} />
                 <Drawer.Screen name="Me" component={Profile} options={{headerShown:false, unmountOnBlur:true}} />
                 <Drawer.Screen name="Chat" component={ChatScreen} options={{headerShown:false, unmountOnBlur:true}} />
@@ -181,11 +194,11 @@ function HigherComp({currentUser}) {
             }
             {
                 inCall==="waiting" && 
-                <Drawer.Screen name="CallScreen" component={CallScreen} options={{headerShown:false, unmountOnBlur:true}} />
+                <Drawer.Screen name="CallScreen" initialParams={{callingPerson:callingPerson}} component={CallScreen} options={{headerShown:false, unmountOnBlur:true}} />
             }
             {
                 inCall==="incall" && 
-                <Drawer.Screen name="VideoCall" component={VideoCallScreen} options={{headerShown:false, unmountOnBlur:false}} />
+                <Drawer.Screen name="VideoCall" initialParams={{engine:engine, peerIds:peerIds}} component={VideoCallScreen} options={{headerShown:false, unmountOnBlur:false}} />
             }
             
         </Drawer.Navigator>

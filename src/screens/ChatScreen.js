@@ -19,8 +19,8 @@ const ChatScreen = ({navigation, currentUser}) => {
             <TouchableOpacity onPress={() => {navigation.navigate('Messages');}} style={{margin:20, marginRight:0}}>
                 <Icon name='chevron-back-outline' color={'#fff'} size={30}/>
             </TouchableOpacity>
-            <Image source={{uri:'https://pbs.twimg.com/profile_images/1280095122923720704/K8IvmzSY_400x400.jpg'}} style={{height:40, width:40, borderRadius:50, alignSelf:'center'}} />
-            <Text style={{color:'#fff', fontWeight:'400', alignSelf:'center', fontSize:18,margin:20, marginLeft:5}}>Performer Test</Text>
+            <Image source={{uri:'https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png'}} style={{height:40, width:40, borderRadius:50, alignSelf:'center'}} />
+            <Text style={{color:'#fff', fontWeight:'400', alignSelf:'center', fontSize:18,margin:20, marginLeft:5}}>Test User</Text>
             </View>
             <ScrollView style={{flex:1}}>
                 <View >

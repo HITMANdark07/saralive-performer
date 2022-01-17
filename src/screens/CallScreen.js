@@ -16,9 +16,10 @@ var ding = new Sound(caller, Sound.MAIN_BUNDLE, (error) => {
     return;
   }
 })
-const CallScreen = ({currentUser}) => {
 
-
+const CallScreen = ({currentUser, route}) => {
+  const person = route.params.callingPerson;
+  console.log(person);
   const acceptCall  = () => {
     const db = getDatabase();
     const paidRef = ref(db, 'paidcam/'+currentUser.id);
@@ -53,6 +54,7 @@ const CallScreen = ({currentUser}) => {
       }});
     return () => {
       ding.release();
+      console.log("ding release");
     };
   },[]);
   return (
@@ -72,7 +74,7 @@ const CallScreen = ({currentUser}) => {
       <View style={{flex: 1, justifyContent: 'flex-end'}}>
         <Image
           source={{
-            uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyQbC0yxIUoik0WypTTIFH8Kf_D-Efpas8Hw&usqp=CAU',
+            uri: person.image,
           }}
           style={{
             height: 200,
@@ -85,7 +87,7 @@ const CallScreen = ({currentUser}) => {
         />
       </View>
       <View style={{justifyContent:'center', alignItems:'center'}}>
-          <Text style={{color:'#fff', marginTop:20, fontSize:20}}>Amit Calling...</Text>
+          <Text style={{color:'#fff', marginTop:20, fontSize:20}}>{person.name} Calling...</Text>
       </View>
       <View
         style={{

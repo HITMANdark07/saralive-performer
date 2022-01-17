@@ -12,9 +12,6 @@ import { setCurrentUser } from '../redux/user/user.action';
 const dark= '#10152F';
 const Profile = ({navigation, currentUser, setUser}) => {
 
-
-
-
     const signOut = () => {
         setUser(null);
     }
@@ -27,7 +24,7 @@ const Profile = ({navigation, currentUser, setUser}) => {
              currentUser && currentUser.image ?
              
              (
-                <Image source={{uri : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyQbC0yxIUoik0WypTTIFH8Kf_D-Efpas8Hw&usqp=CAU'}} style={{width:100, height:100, borderRadius:100,borderColor:'#fff', borderWidth:1}} />
+                <Image source={{uri : 'https://pbs.twimg.com/profile_images/1280095122923720704/K8IvmzSY_400x400.jpg'}} style={{width:100, height:100, borderRadius:100,borderColor:'#fff', borderWidth:1}} />
              )
              :
              (
@@ -36,9 +33,9 @@ const Profile = ({navigation, currentUser, setUser}) => {
               </View>
              )
            }
-                <Text style={{color:'#fff', fontWeight:'700', fontSize:22, marginTop:10}}>{currentUser.first_name} {currentUser.last_name}</Text>
-                <View style={{backgroundColor:currentUser.sex==='female' ? '#FF00FF':'#4169E1',justifyContent:'flex-start', width:30, borderRadius:50}}>
-                    <Ico name={currentUser.sex ==='female' ? "female":"male"} size={20} color="#fff" style={{padding:5}} />
+                <Text style={{color:'#fff', fontWeight:'700', fontSize:22, marginTop:10}}>{currentUser.f_name} {currentUser.l_name}</Text>
+                <View style={{backgroundColor:currentUser.sex==='male' ? '#4169E1':'#FF00FF',justifyContent:'flex-start', width:30, borderRadius:50}}>
+                    <Ico name={currentUser.sex ==='male' ? "male":"female"} size={20} color="#fff" style={{padding:5}} />
                 </View>
             </View>
 

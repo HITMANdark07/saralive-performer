@@ -13,7 +13,6 @@ const themeColor1= "#fff";
 const themeColor2="#4BD5CF";
 function CustomDrawer({navigation,currentUser,setUser}) {
 
-
   const signOut = () => {
       setUser(null);
   }
@@ -44,7 +43,7 @@ function CustomDrawer({navigation,currentUser,setUser}) {
            
            <View style={{alignItems:'center',alignSelf:'center', marginLeft:10}}>
            <Text style={{fontSize:20, color:'#5DBCB0', fontWeight:'500', alignSelf:'center'}}>Hi,</Text>
-           <Text style={{fontSize:20, color:'#5DBCB0', fontWeight:'500', alignSelf:'center'}}>{currentUser && currentUser.first_name}</Text>
+           <Text style={{fontSize:20, color:'#5DBCB0', fontWeight:'500', alignSelf:'center'}}>{currentUser && currentUser.f_name } {currentUser && currentUser.l_name }</Text>
            </View>
 
         </View>
@@ -61,16 +60,16 @@ function CustomDrawer({navigation,currentUser,setUser}) {
       </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('OnCam')} >
-          {/* {currentUser && currentUser.photo ? (<Image source={{uri:currentUser.photo}} style={styles.photo} />) :
+      {/* <TouchableOpacity onPress={() => navigation.navigate('OnCam')} >
+          {currentUser && currentUser.photo ? (<Image source={{uri:currentUser.photo}} style={styles.photo} />) :
           (<Icon name="user-circle-o" style={styles.icon} color={themeColor1} size={30} />)}
-          <Text style={styles.menuText}>Hi, {currentUser && currentUser.name ? currentUser.name.split(" ")[0] : "USER"}</Text> */}
+          <Text style={styles.menuText}>Hi, {currentUser && currentUser.name ? currentUser.name.split(" ")[0] : "USER"}</Text>
           <View style={styles.drawerMenu} >
           <Icon name="picasa" style={styles.icon} color={themeColor2} size={30} />
           <Text style={styles.menuText}>On Cams</Text>
       </View>
 
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       
       <TouchableOpacity onPress={() => navigation.navigate('Messages')}>
       <View style={styles.drawerMenu}>
