@@ -56,8 +56,11 @@ const SignUp = ({navigation}) => {
         formData.append("f_name",firstName);
         formData.append('l_name', lastName);
         formData.append('email', email);
-        formData.append('contact_no', phone);
+        formData.append('phone', phone);
         formData.append('password', password);
+        formData.append('address',address);
+        formData.append('dob',moment(dob).format('YYYY-MM-DD'));
+        formData.append('adhaar_no',aadhar);
         console.log(formData);
 
         axios({
