@@ -18,7 +18,7 @@ import VideoCallScreen from './VideoCallScreen';
 
 
 const Drawer = createDrawerNavigator();
-
+const dark = '#10152F';
 function HigherComp({currentUser}) {
     const appId = "bbd961c37a6945318efd2ed41ae214c1";
     const [engine, setEngine] = React.useState(undefined);
@@ -137,7 +137,8 @@ function HigherComp({currentUser}) {
             // setTm(tim);
             if (peerIds.indexOf(uid) === -1) {
                 // Add peer ID to state array
-                setPeerIds([...peerIds, uid])
+                console.log(uid);
+                setPeerIds((prevState) => [...prevState, uid])
             }
         })
 
@@ -174,6 +175,12 @@ function HigherComp({currentUser}) {
         [engine]
     );
 
+    const Waiting = () => (
+        <View style={{flex:1, justifyContent:'center', backgroundColor:dark}}>
+            <Text style={{color:'#fff', fontSize:22,fontWeight:'300', textAlign:'center'}}>LOADING...</Text>
+        </View>
+    )
+
     
     return (
         <Drawer.Navigator screenOptions={{drawerStyle:{backgroundColor:'transparent'}}} drawerContent={(props) => <CustomDrawer {...props}  /> }>
@@ -198,7 +205,8 @@ function HigherComp({currentUser}) {
             }
             {
                 inCall==="incall" && 
-                <Drawer.Screen name="VideoCall" initialParams={{engine:engine, peerIds:peerIds}} component={VideoCallScreen} options={{headerShown:false, unmountOnBlur:false}} />
+                <Drawer.Screen name="VideoCall" 
+                initialParams={{engine:engine, peerIds:peerIds}} component={VideoCallScreen} options={{headerShown:false, unmountOnBlur:false}} />
             }
             
         </Drawer.Navigator>

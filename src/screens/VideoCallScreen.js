@@ -4,12 +4,14 @@ import {RtcLocalView, RtcRemoteView, VideoRenderMode} from 'react-native-agora';
 import { getDatabase, push, ref, set, orderByChild,remove, equalTo,onChildAdded, query, orderByValue, onValue, update } from "firebase/database";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
+import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
 ]);
 const dark = '#10152F';
 const VideoCallScreen = ({currentUser, route}) => {
     const [mic, setMic] = React.useState(false);
+    const [peerId, setPeerId] = React.useState(0);
     // console.log("Engine",route.params.engine);
     const endCall = () => {
         // route.params.engine?.leaveChannel();
@@ -25,39 +27,52 @@ const VideoCallScreen = ({currentUser, route}) => {
             console.log("ERROR ", err);
         })
     }
-    if(mic){
-        route.params.engine?.enableLocalAudio();
-    }else{
-        route.params.engine?.disableAudio();
-    }
+    // if(mic){
+    //     route.params.engine?.enableLocalAudio();
+    // }else{
+    //     route.params.engine?.disableAudio();
+    // }
 
     React.useEffect(() => {
         route.params.engine?.joinChannel(null, currentUser.id, null, (Number)(currentUser.id));
+
+        const db = getDatabase();
+        const paidRef = ref(db, 'paidcam/'+currentUser.id);
+        const sub = onValue(paidRef, (snapshot) => {
+            if(snapshot.exists()){
+                setPeerId(snapshot.val()?.person2);
+                console.log("******************",snapshot.val()?.person2);
+            }
+        });
+
         return () => {
             // console.log("HEY UNMOUNTING");
-            route.params.engine?.leaveChannel()
+            route.params.engine?.leaveChannel();
+            return sub;
         }
     },[]);
     return (
-        <View style={{flex:1, justifyContent:'center', backgroundColor:dark}}>
-            {route.params.peerIds.length>0 ? 
+        <View style={{flex:1, backgroundColor:dark}}>
+            {peerId ? 
+            <View style={{flex:0.8}} >
             <RtcRemoteView.SurfaceView
             style={{ flex:1, position:'relative' }}
-            uid={route.params.peerIds[0]}
+            uid={peerId}
             channelId={currentUser.id}
             renderMode={VideoRenderMode.Hidden}
             zOrderMediaOverlay={true} />
+            </View>
             :
             <Text style={{color:'white', textAlign:'center', fontSize:25, fontWeight:'200'}}>Waiting for Partner...</Text>
             }
-            <View style={{ position:'absolute', bottom:150, right:5,borderRadius:10,overflow:'hidden' ,borderColor:'#fff', borderWidth:2}}>
+            <View style={{ position:'absolute', bottom:10, flex:0.1, right:5,borderRadius:10,overflow:'hidden' ,borderColor:'#fff', borderWidth:2}}>
             <RtcLocalView.SurfaceView
             style={{ height:150, width:100 }}
             channelId={currentUser.id}
             renderMode={VideoRenderMode.Hidden} />
             </View>
-            <View style={{position:'absolute',bottom:10,flexDirection:'row', justifyContent:'center'}}>
-            <View style={{flex:1, alignItems:'center'}}>
+            <View style={{position:'absolute',bottom:11,flexDirection:'row', justifyContent:'center'}}>
+            {/* <View style={{flex:1, alignItems:'center'}}>
             <TouchableOpacity 
                 onPress={() => {
                     setMic((prev) => !prev);
@@ -81,7 +96,7 @@ const VideoCallScreen = ({currentUser, route}) => {
                     <Icon name="mic-off" color="#fff" size={35} />
                 }
                 </TouchableOpacity>
-            </View>
+            </View> */}
             <View style={{flex:1, alignItems:'center'}}>
             <TouchableOpacity 
                 onPress={endCall}
