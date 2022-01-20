@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet,TouchableOpacity, Image, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet,TouchableOpacity, Image, ImageBackground, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import { API } from '../../api.config';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Entypo';
+import axios from 'axios';
 import Ico from 'react-native-vector-icons/Ionicons';
 import Ic from 'react-native-vector-icons/FontAwesome5';
 import Footer from '../components/Footer';
@@ -11,6 +12,27 @@ import { setCurrentUser } from '../redux/user/user.action';
 
 const dark= '#10152F';
 const Profile = ({navigation, currentUser, setUser}) => {
+
+    const [coins, setCoins] = React.useState(0.00);
+
+    const init = () =>{
+        axios({
+            method:'POST',
+            url:`${API}/performer_wallet_balance`,
+            data:{performer_id:currentUser.id}
+        }).then((res) => {
+            if(res.data.responseCode){
+                setCoins((+(res.data.responseData)).toFixed(2));
+            }else{
+                ToastAndroid.showWithGravity("Something went Wrong",ToastAndroid.CENTER, ToastAndroid.SHORT);
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+    React.useEffect(() => {
+        init();
+    },[]);
 
     const signOut = () => {
         setUser(null);
@@ -48,7 +70,7 @@ const Profile = ({navigation, currentUser, setUser}) => {
                     </View>
                     <View style={{flexDirection:'column', justifyContent:'space-evenly', flex:1, marginTop:10, marginBottom:10}}>
                         <Text style={{color:'#fff', fontSize:20, fontWeight:'800'}}>Coin Store</Text>
-                        <Text style={{color:'#fff', fontSize:14, fontWeight:'400'}}>My Coins: {currentUser.wallet_coin} </Text>
+                        <Text style={{color:'#fff', fontSize:14, fontWeight:'400'}}>My Coins: {coins} </Text>
                     </View>
                     <View style={{padding:20, justifyContent:'center'}}>
                         <Ic name="chevron-right" size={30} color='#fff' />
@@ -58,12 +80,12 @@ const Profile = ({navigation, currentUser, setUser}) => {
             </TouchableOpacity>
 
             <View style={{flexDirection:'column', padding:20}}>
-                <TouchableOpacity activeOpacity={0.4}>
+                {/* <TouchableOpacity activeOpacity={0.4}>
                 <View style={{flexDirection:'row', justifyContent:'space-between', margin:10}}>
                     <Text style={{color:'#ddd', fontSize:20, fontWeight:'700'}}>Payment History</Text>
                     <Ic name="history" color="#ddd" size={25} />
                 </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity activeOpacity={0.4}>
                 <View style={{flexDirection:'row', justifyContent:'space-between', margin:10}}>
