@@ -4,7 +4,6 @@ import {RtcLocalView, RtcRemoteView, VideoRenderMode} from 'react-native-agora';
 import { getDatabase, push, ref, set, orderByChild,remove, equalTo,onChildAdded, query, orderByValue, onValue, update } from "firebase/database";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
-import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
 ]);
@@ -22,6 +21,9 @@ const VideoCallScreen = ({currentUser, route}) => {
         update(paidRef,{
             status:'pending',//pending, waiting, joined
             person2:"",
+            image : "",
+            maxtime: 0,
+            name : "",
         }).then((res) => {
         }).catch((err) => {
             console.log("ERROR ", err);
@@ -48,9 +50,35 @@ const VideoCallScreen = ({currentUser, route}) => {
         return () => {
             // console.log("HEY UNMOUNTING");
             route.params.engine?.leaveChannel();
-            return sub;
+            sub;
         }
     },[]);
+
+    React.useEffect(() => {
+        const db = getDatabase();
+        let max = 60000;
+        const paidRef = ref(db, 'paidcam/'+currentUser.id);
+        onValue(paidRef, (snapshot) => {
+            max = snapshot?.val()?.maxtime || 60000;
+        }, {onlyOnce:true});
+        let count =0;
+        let timer = setInterval(() => {
+            count+=100;
+            if(count>max){
+                endCall();
+            }
+        },100);
+        return () => {
+            clearInterval(timer);
+            console.log(Math.ceil(count/60000)*(+(currentUser.coin_per_min)), "coins deduct");
+            // axios({
+            //     method:'POST',
+            //     url:`${API}/`,
+
+            // })
+        }
+        
+    },[])
     return (
         <View style={{flex:1, backgroundColor:dark}}>
             {peerId ? 
