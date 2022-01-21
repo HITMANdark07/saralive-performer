@@ -14,6 +14,7 @@ import Performer from './Performer';
 import CallScreen from './CallScreen';
 import { connect } from 'react-redux';
 import VideoCallScreen from './VideoCallScreen';
+import PerformerUpdate from './PerformerUpdate';
 
 
 
@@ -190,8 +191,9 @@ function HigherComp({currentUser}) {
                 inCall==="pending" && 
                 (
                 <>
-                {/* <Drawer.Screen name="Home" component={Home} options={{headerShown:false, unmountOnBlur:true}} /> 
-                    <Drawer.Screen name="OnCam" component={Cam} options={{headerShown:false, unmountOnBlur:true}} /> */}
+                <Drawer.Screen name="Home" component={Home} options={{headerShown:false, unmountOnBlur:true}} /> 
+                {/* <Drawer.Screen name="OnCam" component={Cam} options={{headerShown:false, unmountOnBlur:true}} /> */}
+                <Drawer.Screen name="Update" component={PerformerUpdate} options={{headerShown:false, unmountOnBlur:true}} />
                 <Drawer.Screen name="Messages" component={InboxScreen} options={{headerShown:false, unmountOnBlur:true}} />
                 <Drawer.Screen name="Me" component={Profile} options={{headerShown:false, unmountOnBlur:true}} />
                 <Drawer.Screen name="Chat" component={ChatScreen} options={{headerShown:false, unmountOnBlur:true}} />

@@ -7,12 +7,12 @@ const Footer = ({navigation,name }) => {
         <View style={styles.footmain}>
             <View style={styles.footer}>
 
-                {/* <TouchableOpacity style={styles.tab} onPress={() => {
+                <TouchableOpacity style={styles.tab} onPress={() => {
                     navigation.navigate('Home');
                 }}>
-                <Icon name="video-camera" size={25} color={name==='discover' ? "#4BD5CF":'#ddd'}/>
-                <Text style={{color:name==='discover' ? "#4BD5CF":'#fff', fontSize:12}}>Discover</Text>
-                </TouchableOpacity> */}
+                <Icon name="email" size={25} color={name==='discover' ? "#4BD5CF":'#ddd'}/>
+                <Text style={{color:name==='discover' ? "#4BD5CF":'#fff', fontSize:12}}>Manage</Text>
+                </TouchableOpacity>
 
                 {/* <TouchableOpacity style={styles.tab} onPress={() => {
                     navigation.navigate('OnCam');

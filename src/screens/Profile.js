@@ -51,11 +51,18 @@ const Profile = ({navigation, currentUser, setUser}) => {
              :
              (
               <View style={{backgroundColor:'#4BD5CF', width:100, height:100, borderRadius:100,borderRadius:50, justifyContent:'center'}}>
-                <Icon name="user" size={50} color="#fff" style={{alignSelf:'center'}}  />
+                <Ico name="settings" size={50} color="#fff" style={{alignSelf:'center'}}  />
               </View>
              )
            }
+                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                 <Text style={{color:'#fff', fontWeight:'700', fontSize:22, marginTop:10}}>{currentUser.f_name} {currentUser.l_name}</Text>
+                <TouchableOpacity style={{backgroundColor:'#3498DB', padding:10, borderRadius:20}} onPress={() => {
+                    navigation.navigate('Update');
+                }}>
+                    <Ico name="settings" size={20} color="#fff" />
+                </TouchableOpacity>
+                </View>
                 <View style={{backgroundColor:currentUser.sex==='male' ? '#4169E1':'#FF00FF',justifyContent:'flex-start', width:30, borderRadius:50}}>
                     <Ico name={currentUser.sex ==='male' ? "male":"female"} size={20} color="#fff" style={{padding:5}} />
                 </View>
