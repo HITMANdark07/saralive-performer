@@ -34,9 +34,9 @@ const Login = ({navigation, setUser}) => {
         formData.append("password",password);
 
         axios({
-            method:'post',
+            method:'POST',
             url:`${API}/performer_login`,
-            data:formData,
+            data:formData
         }).then((res) => {
             setLoading(false);
             console.log(res.data);

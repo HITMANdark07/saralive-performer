@@ -70,12 +70,21 @@ const VideoCallScreen = ({currentUser, route}) => {
         },100);
         return () => {
             clearInterval(timer);
-            console.log(Math.ceil(count/60000)*(+(currentUser.coin_per_min)), "coins deduct");
-            // axios({
-            //     method:'POST',
-            //     url:`${API}/`,
+            let deduct = (Math.ceil(count/60000)*(+(currentUser.coin_per_min)), "coins deduct");
+            axios({
+                method:'POST',
+                url:`${API}/customer_coin_deduct`,
+                data:{
+                    customer_id:peerId,
+                    performer_id: currentUser.id,
+                    coin: deduct
+                }
 
-            // })
+            }).then((res) => {
+                console.log(res.data);
+            }).catch((err) => {
+                console.log(err);
+            })
         }
         
     },[])
