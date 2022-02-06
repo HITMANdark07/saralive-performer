@@ -3,12 +3,15 @@ import { View, Text,TouchableOpacity, LogBox } from 'react-native';
 import {RtcLocalView, RtcRemoteView, VideoRenderMode} from 'react-native-agora';
 import { getDatabase, push, ref, set, orderByChild,remove, equalTo,onChildAdded, query, orderByValue, onValue, update } from "firebase/database";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import axios from 'axios';
+import {API} from '../../api.config';
 import { connect } from 'react-redux';
+import { setData } from '../redux/user/user.action';
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
 ]);
 const dark = '#10152F';
-const VideoCallScreen = ({currentUser, route}) => {
+const VideoCallScreen = ({currentUser,updateCoinData, route}) => {
     const [mic, setMic] = React.useState(false);
     const [peerId, setPeerId] = React.useState(0);
     // console.log("Engine",route.params.engine);
@@ -18,7 +21,7 @@ const VideoCallScreen = ({currentUser, route}) => {
         const db = getDatabase();
         const paidRef = ref(db, 'paidcam/'+currentUser.id);
         // const paid = push(paidRef);
-        update(paidRef,{
+        return update(paidRef,{
             status:'pending',//pending, waiting, joined
             person2:"",
             image : "",
@@ -53,6 +56,8 @@ const VideoCallScreen = ({currentUser, route}) => {
             sub;
         }
     },[]);
+    
+
 
     React.useEffect(() => {
         const db = getDatabase();
@@ -70,24 +75,33 @@ const VideoCallScreen = ({currentUser, route}) => {
         },100);
         return () => {
             clearInterval(timer);
-            let deduct = (Math.ceil(count/60000)*(+(currentUser.coin_per_min)), "coins deduct");
-            axios({
-                method:'POST',
-                url:`${API}/customer_coin_deduct`,
-                data:{
-                    customer_id:peerId,
-                    performer_id: currentUser.id,
-                    coin: deduct
-                }
+            let deduct = (Math.ceil(count/60000)*(+(currentUser.coin_per_min)));
+            let data = {
+                performer_id:currentUser.id,
+                customer_id:peerId,
+                coin:deduct
+            }
+            if(data?.customer_id!=0 && data.coin>0){
+                updateCoinData(data);
+            }
+            console.log("deduct",data);
+            // axios({
+            //     method:'POST',
+            //     url:`${API}/customer_coin_deduct`,
+            //     data:{
+            //         customer_id:peerId,
+            //         performer_id: currentUser.id,
+            //         coin: deduct
+            //     }
 
-            }).then((res) => {
-                console.log(res.data);
-            }).catch((err) => {
-                console.log(err);
-            })
+            // }).then((res) => {
+            //     console.log(res.data);
+            // }).catch((err) => {
+            //     console.log(err);
+            // })
         }
         
-    },[])
+    },[peerId])
     return (
         <View style={{flex:1, backgroundColor:dark}}>
             {peerId ? 
@@ -160,5 +174,8 @@ const VideoCallScreen = ({currentUser, route}) => {
 const mapStateToProps = state => ({
     currentUser: state.user.currentUser
 })
+const mapDispatchToProps = (dispatch) => ({
+    updateCoinData : data => dispatch(setData(data))
+})
 
-export default connect(mapStateToProps)(VideoCallScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(VideoCallScreen);

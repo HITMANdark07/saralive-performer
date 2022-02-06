@@ -8,7 +8,7 @@ import PerformerCard from '../components/PerformerCard';
 import Footer from '../components/Footer';
 import InputText from '../components/InputText';
 import axios from 'axios';
-import { setCurrentUser } from '../redux/user/user.action';
+import { setCurrentUser, setData } from '../redux/user/user.action';
 
 const dark= '#10152F';
 const windowWidth = Dimensions.get('window').width;
@@ -18,7 +18,7 @@ const wait = (timeout) => {
   }
 
 
-const Home = ({navigation, currentUser, setUser}) => {
+const Home = ({navigation, currentUser,coinData,updateCoinData, setUser}) => {
     const [f_name, setF_name] = React.useState(currentUser.f_name);
     const [l_name, setL_name] = React.useState(currentUser.l_name);
     const [img, setImage] = React.useState(currentUser.images[currentUser?.images?.length-1]?.image);
@@ -36,6 +36,7 @@ const Home = ({navigation, currentUser, setUser}) => {
     //             console.log("none",e);
     //     }
     // }
+
     const requestCameraPermission = async () => {
         try {
           const granted = await PermissionsAndroid.request(
@@ -57,6 +58,7 @@ const Home = ({navigation, currentUser, setUser}) => {
           console.warn(err);
         }
       };
+      
     const uploadImage = () => {
         let formData = new FormData();
         formData.append('user_id', currentUser.id);
@@ -216,10 +218,12 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    coinData: state.user.data
 });
 const mapDispatchToProps = (dispatch) => ({
-    setUser : (user) => dispatch(setCurrentUser(user))
+    setUser : (user) => dispatch(setCurrentUser(user)),
+    updateCoinData : data => dispatch(setData(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
