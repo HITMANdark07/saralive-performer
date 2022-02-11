@@ -19,11 +19,12 @@ const wait = (timeout) => {
 
 
 const Home = ({navigation, currentUser,coinData,updateCoinData, setUser}) => {
-    const [f_name, setF_name] = React.useState(currentUser.f_name);
-    const [l_name, setL_name] = React.useState(currentUser.l_name);
+    // const [f_name, setF_name] = React.useState(currentUser.f_name);
+    // const [l_name, setL_name] = React.useState(currentUser.l_name);
     const [img, setImage] = React.useState(currentUser.images[currentUser?.images?.length-1]?.image);
     const [upImage, setUpImage] = React.useState(null);
     const [showUpload , setShowUpload] = React.useState(false);
+    const [followers, setFollowers] = React.useState([]);
     // const handleChange = (name, e) => {
     //     switch(name){
     //         case 'f_name':
@@ -125,7 +126,25 @@ const Home = ({navigation, currentUser,coinData,updateCoinData, setUser}) => {
         }).catch((err) => {
             console.log(err);
         })
-    }
+    };
+
+    const getFollowers = React.useCallback(() => {
+        axios({
+            method:'POST',
+            url:`${API}/customer_follow_list`,
+            data:{performer_id:currentUser.id}
+        }).then((res) => {
+            if(res.data.responseCode){
+                setFollowers(res.data.responseData);
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+    },[]);
+
+    React.useEffect(() => {
+        getFollowers();
+    },[]);
     
     return (
         <View style={{flex:1, backgroundColor:dark}}>
@@ -143,6 +162,10 @@ const Home = ({navigation, currentUser,coinData,updateCoinData, setUser}) => {
                 <View>
                     <View style={{flexDirection:'column', justifyContent:'center',width:windowWidth-60, margin:30, marginTop:10}}>
                     <Image source={{uri : img ? img : 'https://pbs.twimg.com/profile_images/1280095122923720704/K8IvmzSY_400x400.jpg'}} style={{alignSelf:'center',width:150, height:150, borderRadius:100,borderColor:'#fff', borderWidth:1}} />
+                    <View style={{alignItems:'center'}}>
+                        <Text style={{color:'#fff', fontSize:22}}>{followers.length}</Text>
+                        <Text style={{color:'#fff',fontSize:10, fontWeight:'300'}}>FOLLOWERS</Text>
+                    </View>
                         {/* <InputText name="f_name" icon="person" placeholder="First Name" value={f_name} handleChange={handleChange}  />
                         <InputText name="l_name" icon="person" placeholder="Last Name" value={l_name} handleChange={handleChange}  /> */}
                         <TouchableOpacity style={{backgroundColor:'#3498DB', position:'absolute',top:0, left:0, padding:10, borderRadius:20}} onPress={openGallery}>

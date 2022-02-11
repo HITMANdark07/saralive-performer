@@ -23,6 +23,7 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
     const [lastName, setLastName] = React.useState(currentUser?.l_name);
     const [email , setEmail] = React.useState(currentUser?.email);
     const [phone, setPhone] = React.useState(currentUser?.phone);
+    const [coins, setCoins] = React.useState(currentUser.coin_per_min);
     // const [password, setPassword] = React.useState("");
     const [address, setAddress] = React.useState(currentUser?.address);
     const [aadhar, setAadhar] = React.useState(currentUser?.adhaar_no);
@@ -53,6 +54,9 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
             case 'address':
                 setAddress(e);
                 break;
+            case 'coins':
+                setCoins(e);
+                break;
             default:
                 console.log("none",e);
         }
@@ -79,7 +83,7 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
         formData.append('dob',moment(dob).format('YYYY-MM-DD'));
         formData.append('adhaar_no', aadhar);
         formData.append('address', address);
-
+        formData.append('coin_per_min', coins);
         axios({
             method:'POST',
             url:`${API}/performer_profile_update`,
@@ -89,6 +93,9 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
                 ToastAndroid.showWithGravity(res.data.responseText, ToastAndroid.CENTER, ToastAndroid.SHORT);
                 setShowBu(false);
                 getUserDetails();
+            }else{
+                ToastAndroid.showWithGravity(res.data.responseText, ToastAndroid.CENTER, ToastAndroid.SHORT);
+                setShowBu(false);
             }
         }).catch((err) =>{
             console.log(err);
@@ -136,6 +143,7 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
                     <InputText name="phone" icon="phone" placeholder="Phone" value={phone} handleChange={handleChange} type="numeric"  /> */}
                     {/* <InputText name="password" icon="lock" placeholder="Password" value={password} handleChange={handleChange} password={true}  /> */}
                     <InputText name="aadhar" icon="video-label" placeholder="Aadhar Number" value={aadhar} handleChange={handleChange} type="numeric" />
+                    <InputText name="coins" icon="flash-on" placeholder="Coins per minute charge" value={coins} handleChange={handleChange} type="numeric" />
                     <InputText name="address" icon="person-pin-circle" placeholder="Address ( Ex: City Country )" value={address} handleChange={handleChange} />
 
                     {

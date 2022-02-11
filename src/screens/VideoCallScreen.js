@@ -14,6 +14,7 @@ const dark = '#10152F';
 const VideoCallScreen = ({currentUser,updateCoinData, route}) => {
     const [mic, setMic] = React.useState(false);
     const [peerId, setPeerId] = React.useState(0);
+    const [counter, setCounter] = React.useState(0);
     // console.log("Engine",route.params.engine);
     const endCall = () => {
         // route.params.engine?.leaveChannel();
@@ -73,8 +74,12 @@ const VideoCallScreen = ({currentUser,updateCoinData, route}) => {
                 endCall();
             }
         },100);
+        const c = setInterval(() => {
+            setCounter((prev) => prev+1);
+        },1000);
         return () => {
             clearInterval(timer);
+            clearInterval(c);
             let deduct = (Math.ceil(count/60000)*(+(currentUser.coin_per_min)));
             let data = {
                 performer_id:currentUser.id,
@@ -149,6 +154,9 @@ const VideoCallScreen = ({currentUser,updateCoinData, route}) => {
                 </TouchableOpacity>
             </View> */}
             <View style={{flex:1, alignItems:'center'}}>
+            <View >
+                <Text style={{color:'white', fontWeight:'600', marginTop:-60}}>{parseInt((counter/(60)))>9 ? parseInt((counter/(60))) : `0`+parseInt((counter/(60)))}: {parseInt((counter%(60)))>9 ? parseInt((counter%(60))) : `0`+parseInt((counter%(60)))}</Text>
+            </View>
             <TouchableOpacity 
                 onPress={endCall}
                 style={{

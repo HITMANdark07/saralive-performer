@@ -37,6 +37,7 @@ const Profile = ({navigation, currentUser, setUser}) => {
     const signOut = () => {
         setUser(null);
     }
+    console.log(currentUser);
     return (
         <View style={{flex:1, backgroundColor:dark}}>
             {/* <Text style={{color:'#fff'}}>{JSON.stringify(currentUser)}</Text> */}
