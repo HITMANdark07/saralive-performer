@@ -15,6 +15,7 @@ const ChatScreen = ({navigation, currentUser, route}) => {
     const channelId = route.params.channelId;
     const client = route.params.client;
     const client_name = route.params.client_name;
+    const client_image = route.params.client_image;
 
     const [messages, setMessages] = React.useState([]);
     const [message, setMessage] = React.useState("");
@@ -57,11 +58,13 @@ const ChatScreen = ({navigation, currentUser, route}) => {
         const clientRef = ref(db,'client/' + client + '/' + channelId,);
         update(clientRef, {
           last_message: msg,
+          performer_image:currentUser.images.length>0 ? currentUser.images[currentUser.images.length-1].image : '',
           timeStamp: Date.now(),
         });
         const performerRef = ref(db, 'performer/' + currentUser.id + '/' + channelId);
         update(performerRef, {
           last_message: msg,
+          performer_image:currentUser.images.length>0 ? currentUser.images[currentUser.images.length-1].image : '',
           timeStamp: Date.now(),
         });
       };
@@ -112,7 +115,7 @@ const ChatScreen = ({navigation, currentUser, route}) => {
             <TouchableOpacity onPress={() => {navigation.navigate('Messages');}} style={{margin:20, marginRight:0}}>
                 <Icon name='chevron-back-outline' color={'#fff'} size={30}/>
             </TouchableOpacity>
-            <Image source={{uri:'https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png'}} style={{height:40, width:40, borderRadius:50, alignSelf:'center'}} />
+            <Image source={{uri:client_image!="" ? client_image : 'https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png'}} style={{height:40, width:40, borderRadius:50, alignSelf:'center'}} />
             <Text style={{color:'#fff', fontWeight:'400', alignSelf:'center', fontSize:18,margin:20, marginLeft:5}}>{client_name}</Text>
             </View>
             <ScrollView style={{flex:1}} ref={scrollRef}

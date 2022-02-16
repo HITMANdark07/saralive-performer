@@ -3,12 +3,12 @@ import { View, Text, Image } from 'react-native'
 import moment from 'moment';
 // import Icon from 'react-native-vector-icons/Octicons';
 
-function ChatListItem({name, message, time}) {
+function ChatListItem({name, message, time,client_image}) {
 
     return (
         <View style={{flexDirection:'row', justifyContent:'space-between', padding:10, width:'100%'}}>
             <View >
-            <Image source={{uri:'https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png'}} style={{height:70, width:70, borderRadius:50}} />
+            <Image source={{uri:client_image!='' ? client_image : 'https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png'}} style={{height:70, width:70, borderRadius:50}} />
             {/* <Icon name="primitive-dot" style={{position:'absolute',bottom:8, left:59}} size={20} color="#00ff00" /> */}
             </View>
 

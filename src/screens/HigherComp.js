@@ -47,7 +47,7 @@ function HigherComp({currentUser, updateCoinData, coinData}) {
             channelId:currentUser.id,
             person1:currentUser.id,
             name:'',
-            image:'',
+            image:currentUser.images.length>0 ? currentUser.images[currentUser?.images?.length-1]?.image : '',
             status:'pending',//pending, waiting, joined
             person2:"",
         }).then((res) => {

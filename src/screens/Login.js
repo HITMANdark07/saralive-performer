@@ -27,6 +27,21 @@ const Login = ({navigation, setUser}) => {
                 console.log(e);
         }
     }
+    const getUser =(id) => {
+        axios({
+            method:'POST',
+            url:`${API}/performer_details`,
+            data:{
+                user_id:id
+            }
+        }).then((res)=> {
+            if(res.data.responseCode){
+                setUser(res.data.responseData);
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
     const login = () => {
         setLoading(true);
         const formData = new FormData();
@@ -46,7 +61,10 @@ const Login = ({navigation, setUser}) => {
                 setUserName("");
                 setPassword("");
                 console.log(res.data.responseData);
-                setUser(res.data.responseData);
+                if(res.data.responseData){
+                    getUser(res.data.responseData.id);
+                }
+                
             }else{
                 ToastAndroid.showWithGravity(res.data.responseText, ToastAndroid.LONG, ToastAndroid.CENTER);
                 console.log(res.data.responseText);

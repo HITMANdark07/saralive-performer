@@ -44,15 +44,15 @@ const Profile = ({navigation, currentUser, setUser}) => {
             <ImageBackground source={require("../../assets/images/date.jpg")} resizeMode='cover' style={{flex:1}} >
             <View style={{padding:20, flexDirection:'column'}}>
             {
-             currentUser && currentUser.image ?
+             currentUser && currentUser.images.length>0 ?
              
              (
-                <Image source={{uri : 'https://pbs.twimg.com/profile_images/1280095122923720704/K8IvmzSY_400x400.jpg'}} style={{width:100, height:100, borderRadius:100,borderColor:'#fff', borderWidth:1}} />
+                <Image source={{uri : currentUser.images[currentUser.images.length-1].image}} style={{width:100, height:100, borderRadius:100,borderColor:'#fff', borderWidth:1}} />
              )
              :
              (
               <View style={{backgroundColor:'#4BD5CF', width:100, height:100, borderRadius:100,borderRadius:50, justifyContent:'center'}}>
-                <Ico name="settings" size={50} color="#fff" style={{alignSelf:'center'}}  />
+                <Ico name="camera" size={50} color="#fff" style={{alignSelf:'center'}}  />
               </View>
              )
            }
