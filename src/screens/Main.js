@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ImageBackground , StyleSheet, TouchableOpacity} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ico from 'react-native-vector-icons/AntDesign';
 
@@ -7,17 +8,26 @@ const Main = ({navigation}) => {
     return (
         <View style={{flex:1}}>
             <ImageBackground source={require("../../assets/images/back.jpg")} resizeMode="cover" style={{flex:1, justifyContent:'flex-end'}}>
-                <TouchableOpacity style={styles.button} onPress={() => {
-                    navigation.navigate('SignUp')
-                }}>
-                                <Icon name="person-add-alt-1" size={30} color='#fff' style={{marginRight:20}} />
-                                <Text style={{fontSize:22, fontWeight:'800', color:'#fff'}}>SIGNUP</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => {
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('SignUp')
+                    }}>
+                        <LinearGradient  colors={['#FEDB37', '#FDB931', '#9f7928', '#8A6E2F']} style={styles.button} >
+                            <>
+                                    <Icon name="person-add-alt-1" size={30} color='#fff' style={{marginRight:20}} />
+                                    <Text style={{fontSize:22, fontWeight:'800', color:'#fff'}}>SIGNUP</Text>
+                            </>
+                        </LinearGradient>
+                    </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => {
                     navigation.navigate('Login')
                 }} >
+                    <LinearGradient  colors={['#FEDB37', '#FDB931', '#9f7928', '#8A6E2F']} style={styles.button} >
+                        <>
                                 <Ico name="login" size={30} color='#fff' style={{marginRight:20}} />
                                 <Text style={{fontSize:22, fontWeight:'800', color:'#fff'}}>LOGIN</Text>
+                        </>
+                    </LinearGradient>
                 </TouchableOpacity>
             </ImageBackground>
         </View>

@@ -69,7 +69,9 @@ const Profile = ({navigation, currentUser, setUser}) => {
                 </View>
             </View>
 
-           <TouchableOpacity activeOpacity={0.6}>
+           <TouchableOpacity activeOpacity={0.6} onPress={() => {
+               navigation.navigate('WithDraw');
+           }}>
             <LinearGradient colors={['#A020F0', '#FF00FF']} style={styles.coins} start={{ x: 0, y: 1 }}
                 end={{ x: 1, y: 1 }}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
@@ -77,7 +79,7 @@ const Profile = ({navigation, currentUser, setUser}) => {
                         <Ic name='coins' color="#FFFF00" size={50} />
                     </View>
                     <View style={{flexDirection:'column', justifyContent:'space-evenly', flex:1, marginTop:10, marginBottom:10}}>
-                        <Text style={{color:'#fff', fontSize:20, fontWeight:'800'}}>Coin Store</Text>
+                        <Text style={{color:'#fff', fontSize:20, fontWeight:'800'}}>Coin WithDraw</Text>
                         <Text style={{color:'#fff', fontSize:14, fontWeight:'400'}}>My Coins: {coins} </Text>
                     </View>
                     <View style={{padding:20, justifyContent:'center'}}>

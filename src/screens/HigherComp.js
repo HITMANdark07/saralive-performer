@@ -18,6 +18,8 @@ import VideoCallScreen from './VideoCallScreen';
 import PerformerUpdate from './PerformerUpdate';
 import { setData } from '../redux/user/user.action';
 import axios from 'axios';
+import FollowerList from './FollowerList';
+import WithDrawScreen from './WithDrawScreen';
 
 
 
@@ -244,6 +246,8 @@ function HigherComp({currentUser, updateCoinData, coinData}) {
                 <Drawer.Screen name="Me" component={Profile} options={{headerShown:false, unmountOnBlur:true}} />
                 <Drawer.Screen name="Chat" component={ChatScreen} options={{headerShown:false, unmountOnBlur:true}} />
                 <Drawer.Screen name="Performer" component={Performer} options={{headerShown:false, unmountOnBlur:true}} /> 
+                <Drawer.Screen name="Followers" component={FollowerList} options={{headerShown:false, unmountOnBlur:true}} /> 
+                <Drawer.Screen name="WithDraw" component={WithDrawScreen} options={{headerShown:false, unmountOnBlur:true}} /> 
                 </>
                 )
             }
