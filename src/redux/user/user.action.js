@@ -8,3 +8,7 @@ export const setData = (data) => ({
         type:userActionTypes.SET_DATA,
         payload:data
 })
+export const setNotification = (data) => ({
+        type:userActionTypes.SET_NOTIFICATION,
+        payload:data
+})

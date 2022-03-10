@@ -16,7 +16,7 @@ import CallScreen from './CallScreen';
 import { connect } from 'react-redux';
 import VideoCallScreen from './VideoCallScreen';
 import PerformerUpdate from './PerformerUpdate';
-import { setData } from '../redux/user/user.action';
+import { setData, setNotification } from '../redux/user/user.action';
 import axios from 'axios';
 import FollowerList from './FollowerList';
 import WithDrawScreen from './WithDrawScreen';
@@ -25,7 +25,7 @@ import WithDrawScreen from './WithDrawScreen';
 
 const Drawer = createDrawerNavigator();
 const dark = '#10152F';
-function HigherComp({currentUser, updateCoinData, coinData}) {
+function HigherComp({currentUser, updateCoinData, coinData,setNoti}) {
     const appId = "bbd961c37a6945318efd2ed41ae214c1";
     const [engine, setEngine] = React.useState(undefined);
     const [peerIds, setPeerIds] = React.useState([]);
@@ -118,7 +118,7 @@ function HigherComp({currentUser, updateCoinData, coinData}) {
             }
         });
         const db = getDatabase();
-        const rRef = ref(db, 'paidcam/'+currentUser.id);
+        const rRef = ref(db, 'message/'+currentUser.id);
         onValue(rRef,(snapshot) => {
             let obj = { status :"pending", person2:"", image:'',name:''};
             obj = snapshot.toJSON();
@@ -224,6 +224,14 @@ function HigherComp({currentUser, updateCoinData, coinData}) {
         [engine]
     );
 
+    React.useEffect(() => {
+        const db = getDatabase();
+        const mRef = query(ref(db, 'messages'),orderByChild("receiver"), equalTo(currentUser.id));
+        return onValue(mRef,(snapshot) => {
+            setNoti(true);
+        })
+    },[]);
+
     const Waiting = () => (
         <View style={{flex:1, justifyContent:'center', backgroundColor:dark}}>
             <Text style={{color:'#fff', fontSize:22,fontWeight:'300', textAlign:'center'}}>LOADING...</Text>
@@ -270,7 +278,8 @@ const mapStatetoProps = (state) => ({
     coinData: state.user.data
 });
 const mapDispatchToProps = (dispatch) => ({
-    updateCoinData : data => dispatch(setData(data))
+    updateCoinData : data => dispatch(setData(data)),
+    setNoti : data => dispatch(setNotification(data))
 })
 
 export default connect(mapStatetoProps, mapDispatchToProps)(HigherComp);

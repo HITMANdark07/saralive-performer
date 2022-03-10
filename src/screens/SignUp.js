@@ -1,5 +1,4 @@
 import React from 'react'
-import { View,ImageBackground, Text, ActivityIndicator, StyleSheet, TouchableOpacity, ToastAndroid, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import Ico from 'react-native-vector-icons/MaterialIcons';
 import InputText from '../components/InputText';
@@ -7,6 +6,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import axios from 'axios';
+import { View,Image, Text, ActivityIndicator, StyleSheet, TouchableOpacity, ToastAndroid, ScrollView } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 import { API } from '../../api.config';
 
 
@@ -23,6 +24,8 @@ const SignUp = ({navigation}) => {
     const [dob, setdob] = React.useState(new Date());
     const [show , setShow] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [image, setImage] = React.useState("");
+    const [imageText, setImageText] = React.useState("");
     const handleChange = (name, e) => {
         switch(name){
             case 'firstName':
@@ -61,6 +64,17 @@ const SignUp = ({navigation}) => {
         formData.append('address',address);
         formData.append('dob',moment(dob).format('YYYY-MM-DD'));
         formData.append('adhaar_no',aadhar);
+        if(image) {
+            formData.append('image',{
+                uri: image.path,
+                name: `image.${image.mime.split("/")[1]}`,
+                type: image.mime
+            });
+        }else{
+            ToastAndroid.showWithGravity("Please select a image", ToastAndroid.LONG, ToastAndroid.CENTER);
+            setLoading(false);
+            return;
+        }
         console.log(formData);
 
         axios({
@@ -90,6 +104,14 @@ const SignUp = ({navigation}) => {
             setLoading(false);
         })
         
+    }
+    const  openGallery = () => {
+        ImagePicker.openPicker({mediaType:'photo', cropping:true, includeBase64:true}).then(res => {
+            console.log({...res,data:""});
+            setImage(res);
+        }).catch(err => {
+            console.log(err);
+        })
     }
     return (
         <View style={{flex:1, backgroundColor:theme1}}>
@@ -124,6 +146,10 @@ const SignUp = ({navigation}) => {
                                 }
                             }}
                     />}
+                    <TouchableOpacity style={[styles.input,{borderRadius:0}]} onPress={openGallery}>
+                    <Ico name='photo' style={styles.icon} size={30} color="#fff"  />
+                    {image ? <Image source={{uri : `data:image/jpeg;base64,${image?.data}`}} style={{alignSelf:'center',width:150, height:150,borderColor:'#fff', borderWidth:1}} />:<Text style={{flex:1, color:'#fff'}}  >select photo</Text>}
+                    </TouchableOpacity>
                     <InputText name="email" icon="email" placeholder="Email" value={email} handleChange={handleChange}  />
                     <InputText name="phone" icon="phone" placeholder="Phone" value={phone} handleChange={handleChange} type="numeric"  />
                     <InputText name="password" icon="lock" placeholder="Password" value={password} handleChange={handleChange} password={true}  />

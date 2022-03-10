@@ -6,12 +6,15 @@ import Icon from 'react-native-vector-icons/Entypo';
 import ChatListItem from '../components/ChatListItem';
 import Footer from '../components/Footer';
 import { getDatabase, push, ref, set, orderByChild, equalTo,onChildAdded, query, orderByValue, onValue, update } from "firebase/database";
+import { setNotification } from '../redux/user/user.action';
 
 const dark= '#10152F';
-const InboxScreen = ({navigation, currentUser}) => {
+const InboxScreen = ({navigation, currentUser,setNoti}) => {
     // console.log(currentUser)
     const [channels, setChannels] = React.useState([]);
-    
+    React.useEffect(() => {
+        setNoti(false);
+    },[]);
     const getChannels = () => {
         console.log("running");
         const db = getDatabase();
@@ -59,5 +62,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser
 })
-
-export default connect(mapStateToProps)(InboxScreen)
+const mapDispatchToProps = (dispatch) => ({
+    setNoti : data => dispatch(setNotification(data))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(InboxScreen)
