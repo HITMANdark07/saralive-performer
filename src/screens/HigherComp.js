@@ -118,7 +118,7 @@ function HigherComp({currentUser, updateCoinData, coinData,setNoti}) {
             }
         });
         const db = getDatabase();
-        const rRef = ref(db, 'message/'+currentUser.id);
+        const rRef = ref(db, 'paidcam/'+currentUser.id);
         onValue(rRef,(snapshot) => {
             let obj = { status :"pending", person2:"", image:'',name:''};
             obj = snapshot.toJSON();

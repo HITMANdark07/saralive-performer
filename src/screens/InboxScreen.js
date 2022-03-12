@@ -42,7 +42,7 @@ const InboxScreen = ({navigation, currentUser,setNoti}) => {
                     {/* <TouchableOpacity activeOpacity={0.4} onPress={() => { navigation.navigate('Chat')}}>
                         <ChatListItem />
                     </TouchableOpacity> */}
-                    {channels.map((cha) => (
+                    {channels.sort((a,b) => b.timeStamp-a.timeStamp).map((cha) => (
                         <TouchableOpacity key={cha.channelId} activeOpacity={0.4} onPress={() => { navigation.navigate('Chat',{channelId:cha.channelId, client:cha.client, client_name:cha.client_name, client_image:cha.client_image})}}>
                             <ChatListItem client_image={cha.client_image} name={cha.client_name} message={`${cha.last_message.substr(0,12)}${cha.last_message.length>12 ? "...":""}`} time={cha.timeStamp} />
                         </TouchableOpacity>
