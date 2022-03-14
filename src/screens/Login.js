@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { setCurrentUser } from '../redux/user/user.action'
 import { API } from '../../api.config';
 import Ico from 'react-native-vector-icons/AntDesign';
+import Ic from 'react-native-vector-icons/FontAwesome5';
 
 const theme1 = "#E5E5E5";
 const Login = ({navigation, setUser}) => {
@@ -15,6 +16,7 @@ const Login = ({navigation, setUser}) => {
     const [username, setUserName] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [loading, setLoading] = React.useState(false);
+    const [showPass, setShowPass] = React.useState(false);
     const handleChange = (name, e) => {
         switch(name){
             case 'username':
@@ -86,8 +88,13 @@ const Login = ({navigation, setUser}) => {
             <View style={styles.container}>
                 <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
                     <InputText name="username" icon="person" placeholder="Email or Phone" value={username} handleChange={handleChange}  />
-                    <InputText name="password" icon="lock" placeholder="Password" value={password} handleChange={handleChange} password={true}  />
+                    <InputText name="password" icon="lock" placeholder="Password" value={password} handleChange={handleChange} password={!showPass}  />
+                    
                 </View>
+                <Ic name={showPass ? 'eye-slash':'eye'}
+                    onPress={() => setShowPass(st => !st)}
+                    style={{position:'absolute', right:15, top:97}}
+                    size={30} color='#fff' />
                 {
                     loading ?
                     (

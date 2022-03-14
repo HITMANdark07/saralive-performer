@@ -8,6 +8,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { View,Image, Text, ActivityIndicator, StyleSheet, TouchableOpacity, ToastAndroid, ScrollView } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import Ic from 'react-native-vector-icons/FontAwesome5';
 import { API } from '../../api.config';
 
 
@@ -24,6 +25,7 @@ const SignUp = ({navigation}) => {
     const [dob, setdob] = React.useState(new Date());
     const [show , setShow] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [showPass, setShowPass] = React.useState(false);
     const [image, setImage] = React.useState("");
     const [imageText, setImageText] = React.useState("");
     const handleChange = (name, e) => {
@@ -152,7 +154,11 @@ const SignUp = ({navigation}) => {
                     </TouchableOpacity>
                     <InputText name="email" icon="email" placeholder="Email" value={email} handleChange={handleChange}  />
                     <InputText name="phone" icon="phone" placeholder="Phone" value={phone} handleChange={handleChange} type="numeric"  />
-                    <InputText name="password" icon="lock" placeholder="Password" value={password} handleChange={handleChange} password={true}  />
+                    <InputText name="password" icon="lock" placeholder="Password" value={password} handleChange={handleChange} password={!showPass}  />
+                    <Ic name={showPass ? 'eye-slash':'eye'}
+                    onPress={() => setShowPass(st => !st)}
+                    style={{position:'absolute', right:15, top:420}}
+                    size={30} color='#fff' />
                     <InputText name="aadhar" icon="video-label" placeholder="Aadhar Number" value={aadhar} handleChange={handleChange} type="numeric" />
                     <InputText name="address" icon="person-pin-circle" placeholder="Address" value={address} handleChange={handleChange} />
                 </View>
