@@ -7,6 +7,8 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  ActivityIndicator,
+  ToastAndroid,
   TextInput,
 } from 'react-native';
 import {connect} from 'react-redux';
@@ -52,8 +54,12 @@ const WithDrawScreen = ({navigation, currentUser}) => {
 
   const [paytm, setPaytm] = useState('');
   const [coin, setCoin]  = useState('');
+  const [screen , setScreen] = useState('UPI');
   const [requests,setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [accountno, setAccountno] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [ifsc, setIfsc] = useState('');
   const handleChange = (name, e) => {
     switch(name){
         case 'paytm':
@@ -61,6 +67,15 @@ const WithDrawScreen = ({navigation, currentUser}) => {
             break;
         case 'coin':
             setCoin(e);
+            break;
+        case 'bankName':
+            setBankName(e);
+            break;
+        case 'accountno':
+            setAccountno(e);
+            break;
+        case 'ifsc':
+            setIfsc(e);
             break;
         default:
             console.log("none",e);
@@ -145,6 +160,20 @@ const WithDrawScreen = ({navigation, currentUser}) => {
           Withdraw Request
         </Text>
       </View>
+
+      <View style={{display:'flex', flexDirection:'row', justifyContent:'space-evenly'}}>
+        <TouchableOpacity style={{backgroundColor:'green', minWidth:80, borderRadius:10, padding:10,borderColor:'white',borderWidth: screen==='UPI'? 3 :0}}
+        onPress={() => setScreen('UPI')}>
+        <Text style={{color:'white', fontWeight:'700', fontSize:22, textAlign:'center'}}>UPI</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{backgroundColor:'green', minWidth:80, borderRadius:10, padding:10,borderColor:'white',borderWidth: screen==='BANK' ? 3: 0}}
+        onPress={() => setScreen('BANK')}>
+        <Text style={{color:'white', fontWeight:'700', fontSize:22,textAlign:'center'}}>BANK</Text>
+        </TouchableOpacity>
+      </View>
+      {screen==='UPI' ? 
+      (
+        <>
       <View style={{flexDirection:'column', width:windowWidth-40, alignSelf:'center'}}>
 
         <InputText name="paytm" icon="phone" placeholder="Paytm Number" value={paytm} handleChange={handleChange} type="numeric" />
@@ -170,7 +199,38 @@ const WithDrawScreen = ({navigation, currentUser}) => {
           ))}
 
       </ScrollView>
+      </>
+      ):
+    (
+      <>
+      <View style={{flexDirection:'column', width:windowWidth-40, alignSelf:'center'}}>
+        <InputText name="bankName" icon="account-balance" placeholder="Bank Name" value={bankName} handleChange={handleChange} type="text" />
+        <InputText name="accountno" icon="account-balance" placeholder="Account Number" value={accountno} handleChange={handleChange} type="numeric" />
+        <InputText name="ifsc" icon="account-tree" placeholder="IFSC Code" value={ifsc} handleChange={handleChange} type="text" />
+        <InputText name="coin" icon="money" placeholder="Coins to withdraw" value={coin} handleChange={handleChange} type="numeric" />
+        {loading ?
+        (
+            <View style={{alignSelf:'center'}}>
+                <ActivityIndicator size="large" color="#fff" />
+            </View>
+        )
+        :
+        (
+            <TouchableOpacity style={styles.button} >
+                <Text style={{fontSize:22, fontWeight:'600', color:'#fff'}}>REQUEST</Text>
+            </TouchableOpacity>
+        )
+        }
+      </View>
+      {/* <ScrollView style={{flex:2}} showsVerticalScrollIndicator={false}>
 
+          {requests.map((p) => (
+              <RequestCard key={p.id} requests={p} />
+          ))}
+
+      </ScrollView> */}
+      </>
+      )}
     </View>
   );
 };
