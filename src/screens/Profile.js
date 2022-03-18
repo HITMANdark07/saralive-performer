@@ -97,7 +97,9 @@ const Profile = ({navigation, currentUser, setUser}) => {
                 </View>
                 </TouchableOpacity> */}
 
-                <TouchableOpacity activeOpacity={0.4}>
+                <TouchableOpacity activeOpacity={0.4} onPress={() => {
+                    navigation.navigate('Update');
+                }}>
                 <View style={{flexDirection:'row', justifyContent:'space-between', margin:10}}>
                     <Text style={{color:'#ddd', fontSize:20, fontWeight:'700'}}>Account Info</Text>
                     <Icon name="info-with-circle" color="#ddd" size={25} />
