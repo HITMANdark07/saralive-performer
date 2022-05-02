@@ -20,7 +20,7 @@ LogBox.ignoreLogs(['Reanimated 2']);
 import { connect } from 'react-redux';
 import firebase from './src/firebase/config';
 import HigherComp from './src/screens/HigherComp';
-
+import Splashscreen from 'react-native-splash-screen';
 // import {database } from 'firebase/'
 // import AddDoctor from './src/screens/AddDoctor';
 // import ManageDoctor from './src/screens/ManageDoctor';
@@ -57,6 +57,10 @@ const Drawer = createDrawerNavigator();
 
 
 const Router = ({currentUser}) => {
+
+    React.useEffect(() => {
+        Splashscreen.hide();
+    },[]);
 
     return (
         <NavigationContainer>
