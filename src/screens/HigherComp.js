@@ -248,7 +248,7 @@ function HigherComp({currentUser, updateCoinData, coinData,setNoti}) {
                 (
                 <>
                 <Drawer.Screen name="Home" component={Home} options={{headerShown:false, unmountOnBlur:true}} /> 
-                {/* <Drawer.Screen name="OnCam" component={Cam} options={{headerShown:false, unmountOnBlur:true}} /> */}
+                <Drawer.Screen name="OnCam" component={Cam} options={{headerShown:false, unmountOnBlur:true}} />
                 <Drawer.Screen name="Update" component={PerformerUpdate} options={{headerShown:false, unmountOnBlur:true}} />
                 <Drawer.Screen name="Messages" component={InboxScreen} options={{headerShown:false, unmountOnBlur:true}} />
                 <Drawer.Screen name="Me" component={Profile} options={{headerShown:false, unmountOnBlur:true}} />

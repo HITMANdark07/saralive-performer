@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { API } from '../../api.config';
 import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs();
-// import LottieView from 'lottie-react-native';
+import LottieView from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Footer from '../components/Footer';
 import Ico from 'react-native-vector-icons/Entypo';
@@ -204,12 +204,12 @@ const Cam = ({navigation, currentUser}) => {
     return (
         <View style={{flex:1, backgroundColor:dark, justifyContent:'space-between'}}>
             {/* <Text style={{color:'grey'}}>{JSON.stringify(currentUser)}</Text> */}
-            {/* <LottieView
-                // style={{position:'absolute', top:0}}
+            <LottieView
+                style={{position:'absolute', top:0}}
                 source={require('../../assets/love.json')}
                 autoPlay
                 loop
-              /> */}
+              />
               <View style={{backgroundColor:'#1A224B', borderBottomLeftRadius:50, borderBottomRightRadius:50, marginBottom:20}}>
               <Text style={{color:'#fff', fontWeight:'700', alignSelf:'center', fontSize:20,margin:20}}>FACE TO FACE</Text>
               </View>

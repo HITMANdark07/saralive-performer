@@ -9,6 +9,7 @@ import Footer from '../components/Footer';
 import InputText from '../components/InputText';
 import axios from 'axios';
 import { setCurrentUser, setData } from '../redux/user/user.action';
+import { TextInput } from 'react-native-gesture-handler';
 
 const dark= '#10152F';
 const windowWidth = Dimensions.get('window').width;
@@ -190,6 +191,21 @@ const Home = ({navigation, currentUser,coinData,updateCoinData, setUser}) => {
                     </View>
                 </View>
             </View>
+                <TextInput style={{
+                    backgroundColor:'white',
+                    width: '80%',
+                    padding: 10,
+                    alignSelf:'center',
+                    borderRadius:5
+                }} 
+                multiline = {true}
+                numberOfLines={3}
+                placeholder='Write About Yourself Here...' />
+            <TouchableOpacity style={styles.biobtn}>
+                <Text style={{color:'white', textAlign:'center', fontWeight:'600'}}>
+                Update Bio
+                </Text>
+            </TouchableOpacity>
             <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom:60}} >
                             {currentUser.images.length>0 ?
                             (
@@ -241,6 +257,16 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
 
         elevation: 5,
+    },
+    biobtn:{
+        backgroundColor:'#1A224B',
+        width: '50%',
+        alignSelf:'center',
+        padding: 10,
+        borderRadius:10,
+        margin: 10,
+        borderColor:'white',
+        borderWidth:2
     }
 })
 

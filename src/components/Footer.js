@@ -46,7 +46,7 @@ const Footer = ({navigation,name,notification }) => {
 const styles = StyleSheet.create({
     footer:{
         flexDirection:'row',
-        justifyContent:'space-evenly',
+        justifyContent:'space-between',
         padding:10,
         paddingTop:10,
         paddingLeft:30,
