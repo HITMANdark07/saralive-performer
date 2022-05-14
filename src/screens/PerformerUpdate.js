@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image,ScrollView, Dimensions, StyleSheet, ActivityIndicator, ToastAndroid } from 'react-native';
+import { View, Text, TouchableOpacity, Image,ScrollView, Dimensions, StyleSheet, ActivityIndicator, ToastAndroid,TextInput } from 'react-native';
 import React from 'react';
 import { connect } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -24,6 +24,7 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
     const [email , setEmail] = React.useState(currentUser?.email);
     const [phone, setPhone] = React.useState(currentUser?.phone);
     const [coins, setCoins] = React.useState(currentUser.coin_per_min);
+    const [bio, setBio] = React.useState("");
     // const [password, setPassword] = React.useState("");
     const [address, setAddress] = React.useState(currentUser?.address);
     const [aadhar, setAadhar] = React.useState(currentUser?.adhaar_no);
@@ -45,9 +46,9 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
             case 'phone':
                 setPhone(e);
                 break;
-            // case 'password':
-            //     setPassword(e);
-            //     break;
+            case 'bio':
+                setBio(e);
+                break;
             case 'aadhar':
                 setAadhar(e);
                 break;
@@ -61,6 +62,7 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
                 console.log("none",e);
         }
     }
+    console.log(bio)
     const getUserDetails = () => {
         axios({
             method:'POST',
@@ -84,6 +86,7 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
         formData.append('adhaar_no', aadhar);
         formData.append('address', address);
         formData.append('coin_per_min', coins);
+        formData.append('bio',bio);
         axios({
             method:'POST',
             url:`${API}/performer_profile_update`,
@@ -145,6 +148,28 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
                     <InputText name="aadhar" icon="video-label" placeholder="Aadhar Number" value={aadhar} handleChange={handleChange} type="numeric" />
                     <InputText name="coins" icon="flash-on" placeholder="Coins per minute charge" value={coins} handleChange={handleChange} type="numeric" />
                     <InputText name="address" icon="person-pin-circle" placeholder="Address ( Ex: City Country )" value={address} handleChange={handleChange} />
+                    <TextInput style={{
+                    backgroundColor:dark,
+                    width: '100%',
+                    margin: 8,
+                    padding: 10,
+                    alignSelf:'center',
+                    borderRadius:15,
+                    borderColor:'white',
+                    color: '#fff',
+                    borderWidth:1
+                    }} 
+                    value={bio}
+                    onChangeText={(e) => handleChange("bio",e)}
+                    multiline = {true}
+                    numberOfLines={3}
+                    placeholderTextColor="#fff"
+                    placeholder='Write About Yourself Here...' />
+                    {/* <TouchableOpacity style={styles.biobtn}>
+                        <Text style={{color:'white', textAlign:'center', fontWeight:'600'}}>
+                        Update Bio
+                        </Text>
+                    </TouchableOpacity> */}
 
                     {
                         showBu &&

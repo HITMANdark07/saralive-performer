@@ -191,21 +191,7 @@ const Home = ({navigation, currentUser,coinData,updateCoinData, setUser}) => {
                     </View>
                 </View>
             </View>
-                <TextInput style={{
-                    backgroundColor:'white',
-                    width: '80%',
-                    padding: 10,
-                    alignSelf:'center',
-                    borderRadius:5
-                }} 
-                multiline = {true}
-                numberOfLines={3}
-                placeholder='Write About Yourself Here...' />
-            <TouchableOpacity style={styles.biobtn}>
-                <Text style={{color:'white', textAlign:'center', fontWeight:'600'}}>
-                Update Bio
-                </Text>
-            </TouchableOpacity>
+                
             <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom:60}} >
                             {currentUser.images.length>0 ?
                             (
