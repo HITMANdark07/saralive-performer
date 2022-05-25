@@ -10,8 +10,9 @@ import { View,Image, Text, ActivityIndicator, StyleSheet, TouchableOpacity, Toas
 import ImagePicker from 'react-native-image-crop-picker';
 import Ic from 'react-native-vector-icons/FontAwesome5';
 import { API } from '../../api.config';
+import { TextInput } from 'react-native-gesture-handler';
 
-
+const dark= '#10152F';
 const theme1 = "#E5E5E5";
 const SignUp = ({navigation}) => {
 
@@ -20,7 +21,9 @@ const SignUp = ({navigation}) => {
     const [email , setEmail] = React.useState("");
     const [phone, setPhone] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [adhaar_image, setAadhar_image] = React.useState("");
     const [address, setAddress] = React.useState("");
+    const [bio, setBio] = React.useState("");
     const [aadhar, setAadhar] = React.useState("");
     const [dob, setdob] = React.useState(new Date());
     const [show , setShow] = React.useState(false);
@@ -41,6 +44,9 @@ const SignUp = ({navigation}) => {
                 break;
             case 'phone':
                 setPhone(e);
+                break;
+            case 'bio':
+                setBio(e);
                 break;
             case 'password':
                 setPassword(e);
@@ -66,6 +72,7 @@ const SignUp = ({navigation}) => {
         formData.append('address',address);
         formData.append('dob',moment(dob).format('YYYY-MM-DD'));
         formData.append('adhaar_no',aadhar);
+        formData.append('bio',bio);
         if(image) {
             formData.append('image',{
                 uri: image.path,
@@ -74,6 +81,17 @@ const SignUp = ({navigation}) => {
             });
         }else{
             ToastAndroid.showWithGravity("Please select a image", ToastAndroid.LONG, ToastAndroid.CENTER);
+            setLoading(false);
+            return;
+        }
+        if(adhaar_image){
+            formData.append('adhaar_image',{
+                uri: adhaar_image.path,
+                name: `image.${adhaar_image.mime.split("/")[1]}`,
+                type: adhaar_image.mime
+            });
+        }else{
+            ToastAndroid.showWithGravity("Please select a Aadhar image", ToastAndroid.LONG, ToastAndroid.CENTER);
             setLoading(false);
             return;
         }
@@ -107,14 +125,19 @@ const SignUp = ({navigation}) => {
         })
         
     }
-    const  openGallery = () => {
+    const  openGallery = (img) => {
         ImagePicker.openPicker({mediaType:'photo', cropping:true, includeBase64:true}).then(res => {
             console.log({...res,data:""});
-            setImage(res);
+            if(img==="image"){
+                setImage(res);
+            }else{
+                setAadhar_image(res);
+            }
         }).catch(err => {
             console.log(err);
         })
     }
+
     return (
         <View style={{flex:1, backgroundColor:theme1}}>
         <LinearGradient colors={['#BC7BE4', '#10152F']}  style={{flex:1, justifyContent:'center'}} >
@@ -148,10 +171,18 @@ const SignUp = ({navigation}) => {
                                 }
                             }}
                     />}
-                    <TouchableOpacity style={[styles.input,{borderRadius:0}]} onPress={openGallery}>
+                    <TouchableOpacity style={[styles.input,{borderRadius:0}]} onPress={(e) => openGallery("image")}>
                     <Ico name='photo' style={styles.icon} size={30} color="#fff"  />
                     {image ? <Image source={{uri : `data:image/jpeg;base64,${image?.data}`}} style={{alignSelf:'center',width:150, height:150,borderColor:'#fff', borderWidth:1}} />:<Text style={{flex:1, color:'#fff'}}  >select photo</Text>}
                     </TouchableOpacity>
+
+                    <TouchableOpacity style={[styles.input,{borderRadius:0}]} onPress={() =>openGallery("aadhar")}>
+                    <Ico name='photo' style={styles.icon} size={30} color="#fff"  />
+                    {adhaar_image ? <Image source={{uri : `data:image/jpeg;base64,${adhaar_image?.data}`}} style={{alignSelf:'center',width:150, height:150,borderColor:'#fff', borderWidth:1}} />
+                    :
+                    <Text style={{flex:1, color:'#fff'}}  >select Aadhar</Text>}
+                    </TouchableOpacity>
+
                     <InputText name="email" icon="email" placeholder="Email" value={email} handleChange={handleChange}  />
                     <InputText name="phone" icon="phone" placeholder="Phone" value={phone} handleChange={handleChange} type="numeric"  />
                     <InputText name="password" icon="lock" placeholder="Password" value={password} handleChange={handleChange} password={!showPass}  />
@@ -161,6 +192,23 @@ const SignUp = ({navigation}) => {
                     size={30} color='#fff' />
                     <InputText name="aadhar" icon="video-label" placeholder="Aadhar Number" value={aadhar} handleChange={handleChange} type="numeric" />
                     <InputText name="address" icon="person-pin-circle" placeholder="Address" value={address} handleChange={handleChange} />
+                    <TextInput style={{
+                    backgroundColor:dark,
+                    width: '100%',
+                    margin: 8,
+                    padding: 10,
+                    alignSelf:'center',
+                    borderRadius:15,
+                    borderColor:'white',
+                    color: '#fff',
+                    borderWidth:0.5
+                    }} 
+                    value={bio}
+                    onChangeText={(e) => handleChange("bio",e)}
+                    multiline = {true}
+                    numberOfLines={3}
+                    placeholderTextColor="#fff"
+                    placeholder='Write About Yourself Here...' />
                 </View>
                 {
                     loading ?

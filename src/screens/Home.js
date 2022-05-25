@@ -166,6 +166,7 @@ const Home = ({navigation, currentUser,coinData,updateCoinData, setUser}) => {
                     <TouchableOpacity activeOpacity={0.5} onPress={() => {
                         navigation.navigate('Followers',{followers});
                     }}>
+                    <Text style={{color:'white', textAlign:'center', fontSize:18}}>{currentUser?.bio}</Text>
                     <View style={{alignItems:'center'}}>
                         <Text style={{color:'#fff', fontSize:22}}>{followers.length}</Text>
                         <Text style={{color:'#fff',fontSize:10, fontWeight:'300'}}>FOLLOWERS</Text>

@@ -23,8 +23,8 @@ const PerformerUpdate = ({currentUser, setUser, navigation}) => {
     const [lastName, setLastName] = React.useState(currentUser?.l_name);
     const [email , setEmail] = React.useState(currentUser?.email);
     const [phone, setPhone] = React.useState(currentUser?.phone);
-    const [coins, setCoins] = React.useState(currentUser.coin_per_min);
-    const [bio, setBio] = React.useState("");
+    const [coins, setCoins] = React.useState(currentUser?.coin_per_min);
+    const [bio, setBio] = React.useState(currentUser?.bio);
     // const [password, setPassword] = React.useState("");
     const [address, setAddress] = React.useState(currentUser?.address);
     const [aadhar, setAadhar] = React.useState(currentUser?.adhaar_no);
